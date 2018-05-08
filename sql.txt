@@ -1,0 +1,10 @@
+mysql> select * from Employee where name like "%n%" and salary > 6000;
+
+mysql>  select employee.name ,company.companyName from company,employee where company.id = employee.companyId and
+    -> employee.salary = (select max(salary) from employee where company.id = employee.companyId) order by employee.salary;
+
+mysql> select companyName, avgSalary from (select companyId,avg(salary) avgSalary from employee group by companyId order by avgSalary desc limit 0,1) employee inner join company on employee.companyId=company.id;
+
+mysql> select employee.id, employee.name, employee.age,  employee.gender, employee.companyId, employee.salary, company.companyName, avg.avgSal
+        ->  from(select avg(salary) avgSal,companyId from Employee group by companyId) avg,employee,company
+        ->  where company.id=avg.companyId and employee.companyId=avg.companyId and employee.salary>avg.avgSal;
